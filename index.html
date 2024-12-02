@@ -57,4 +57,20 @@
           </li>
          
           </li>
+          <form class="d-flex" role="search" method="GET" id="searchForm" style="margin-left: 54rem;">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+              name="query"
+              id="searchQuery"
+            />
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+
+          <script>
+            document.getElementById('searchForm').onsubmit = function(event) {
+              event.preventDefault();
+          
           
