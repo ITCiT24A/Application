@@ -183,3 +183,21 @@
     <footer>
         <p>&copy; 2024 Internet Tracking Company. All rights reserved.</p>
     </footer>
+    <script src="page2.js"></script>
+    <script>
+        class WeatherApp {
+                constructor() {
+                    // Hardcoded values for the API Key and City
+                    this.apiKey = '19f423aaec01cc871cf34d0d6c943bff';  // Replace with your OpenWeather API key
+                    this.city = 'Manolo Fortich';  // Replace with your desired city name
+
+                    // Elements for displaying weather data
+                    this.weatherCard = document.getElementById('weatherCard');
+                    this.cityName = document.getElementById('cityName');
+                    this.temperature = document.getElementById('temperature');
+                    this.description = document.getElementById('description');
+                    this.humidity = document.getElementById('humidity');
+                    this.windSpeed = document.getElementById('windSpeed');
+
+                    // Fetch weather immediately when the app loads
+                    this.fetchWeather();
