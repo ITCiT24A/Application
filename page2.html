@@ -201,3 +201,60 @@
 
                     // Fetch weather immediately when the app loads
                     this.fetchWeather();
+                }
+
+displayWeather(data) {
+    this.cityName.textContent = `${data.name}, ${data.sys.country} (${data.coord.lat}, ${data.coord.lon})`;
+    this.temperature.textContent = `Temperature: ${data.main.temp} °C`;
+    this.description.textContent = `Weather: ${data.weather[0].description}`;
+    this.humidity.textContent = `Humidity: ${data.main.humidity}%`;
+    this.windSpeed.textContent = `Wind Speed: ${data.wind.speed} m/s`;
+
+    // Display weather icon
+    const iconCode = data.weather[0].icon;
+    const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+    document.getElementById('weatherIcon').src = iconUrl;
+
+    // Show the weather card
+    this.weatherCard.style.display = 'block';
+}
+
+async fetchWeather() {
+    const city = this.city;
+    const apiKey = this.apiKey;
+
+    if (city && apiKey) {
+        const data = await this.getWeatherData(city, apiKey);
+        if (data) {
+            this.displayWeather(data);
+        } else {
+            alert('City not found. Please try again.');
+        }
+    } else {
+        alert('Please ensure both city and API key are set.');
+    }
+}
+
+async getWeatherData(city, apiKey) {
+    try {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
+        if (response.ok) {
+            return await response.json();
+        }
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
+    }
+    return null;
+}
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+const weatherApp = new WeatherApp();
+});
+
+</script>
+
+</body>
+
+</html>
+
