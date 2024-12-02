@@ -25,3 +25,12 @@ class LeafletMap {
         this.logCount3Element = document.getElementById('logCountGOAT');
         this.logCount4Element = document.getElementById('logCountKkiko');
         this.idContainer = document.getElementById('logContainer');
+        
+        this.btn.addEventListener('click', () => this.dataTEP());
+        this.btn1.addEventListener('click', () => this.dataCSS());
+        this.btn2.addEventListener('click', () => this.dataBA());
+        this.btn3.addEventListener('click', () => this.dataGOAT());
+        this.btn4.addEventListener('click', () => this.dataKiko());
+        this.btnclear.addEventListener('click', () => this.clearLogs());
+
+    }
