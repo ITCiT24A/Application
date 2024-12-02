@@ -148,3 +148,82 @@
                 </div>
             </div>
         </div>
+        <footer>
+            <p>&copy; 2024 Internet Tracking Company. All rights reserved.</p>
+        </footer>
+    
+        <!-- Scripts -->
+        <script>
+            const apiKeyInput = document.getElementById('apiKeyInput');
+            const cityInput = document.getElementById('cityInput');
+            const getWeatherBtn = document.getElementById('getWeatherBtn');
+            const getLocationBtn = document.getElementById('getLocationBtn');
+            const weatherCard = document.getElementById('weatherCard');
+            const weatherIcon = document.getElementById('weatherIcon');
+            const cityName = document.getElementById('cityName');
+            const temperature = document.getElementById('temperature');
+            const description = document.getElementById('description');
+            const humidity = document.getElementById('humidity');
+            const windSpeed = document.getElementById('windSpeed');
+    
+            getWeatherBtn.addEventListener('click', () => {
+                const city = cityInput.value;
+                const apiKey = apiKeyInput.value;
+    
+                if (city && apiKey) {
+                    fetchWeatherData(city, apiKey);
+                } else {
+                    alert('Please enter both city and API key.');
+                }
+            });
+    
+            getLocationBtn.addEventListener('click', () => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(position => {
+                        const { latitude, longitude } = position.coords;
+                        fetchWeatherDataByCoordinates(latitude, longitude);
+                    });
+                } else {
+                    alert('Geolocation is not supported by this browser.');
+                }
+            });
+    
+            function fetchWeatherData(city, apiKey) {
+                fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`)
+                    .then(response => response.json())
+                    .then(data => {
+                        displayWeatherData(data);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        alert('Error fetching weather data.');
+                    });
+            }
+    
+            function fetchWeatherDataByCoordinates(lat, lon) {
+                const apiKey = apiKeyInput.value;
+                fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`)
+                    .then(response => response.json())
+                    .then(data => {
+                        displayWeatherData(data);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        alert('Error fetching weather data.');
+                    });
+            }
+    
+            function displayWeatherData(data) {
+                const weather = data.weather[0];
+                weatherCard.style.display = 'block';
+                cityName.textContent = data.name;
+                temperature.textContent = `${data.main.temp}°C`;
+                description.textContent = weather.description;
+                humidity.textContent = `Humidity: ${data.main.humidity}%`;
+                windSpeed.textContent = `Wind Speed: ${data.wind.speed} m/s`;
+                weatherIcon.src = `https://openweathermap.org/img/wn/${weather.icon}.png`;
+            }
+        </script>
+    </body>
+    </html>
+    
