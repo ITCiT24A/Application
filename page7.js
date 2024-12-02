@@ -64,5 +64,9 @@ class TodoList {
        
         this.resetEditing();
     }
+    removeTask(event) {
+        const taskItem = event.target.closest('.todo-item');
+        this.todoList.removeChild(taskItem);
+    }
 
 
