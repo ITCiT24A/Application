@@ -17,3 +17,14 @@ class TodoList {
             if (action) this[action + 'Task'](e);
         });
     }
+    addOrUpdateTask() {
+        const taskText = this.todoInput.value.trim();
+        if (taskText) {
+            if (this.editingIndex === -1) {
+                this.addTask(taskText);
+            } else {
+                this.updateTask(taskText); 
+            }
+            this.todoInput.value = ''; 
+        }
+    }
