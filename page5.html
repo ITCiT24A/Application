@@ -94,3 +94,57 @@
             }
         }
     </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">Home</a>
+                <a href="page2.html" class="btn btn-primary ms-2">Back</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+    
+        <header>
+            <h2>Weather App</h2>
+        </header>
+    
+        <div class="container">
+            <div class="text-center">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#infoModal" style="margin-top: 2rem;">Enter City Info</button>
+            </div>
+    
+            <div class="card weather-card" id="weatherCard">
+                <img id="weatherIcon" src="" alt="Weather Icon">
+                <h2 id="cityName"></h2>
+                <p id="temperature"></p>
+                <p id="description"></p>
+                <p id="humidity"></p>
+                <p id="windSpeed"></p>
+            </div>
+        </div>
+    
+        <!-- Modal -->
+        <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Weather Information</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="apiKeyInput" placeholder="Enter API Key" style="font-size: 90%;">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="cityInput" placeholder="Enter City Name" style="font-size: 90%;">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="getWeatherBtn" class="btn btn-primary" data-bs-dismiss="modal">Get Weather</button>
+                        <button id="getLocationBtn" class="btn btn-secondary" data-bs-dismiss="modal">Use My Location</button>
+                    </div>
+                </div>
+            </div>
+        </div>
