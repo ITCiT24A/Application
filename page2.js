@@ -82,3 +82,63 @@ class LeafletMap {
             this.markerCounts[message] = 0;
             this.updateMarkerPopup(marker, message); 
         });
+        this.updateLogDisplay();
+    }
+    
+    displayLogCount() {      
+        this.logCountElement.innerHTML = `American Pygmy Goats: ${this.attendanceCountTEP}`;
+        this.logCount1Element.innerHTML = `Nubian Goats : ${this.attendanceCountCSS}`;
+        this.logCount2Element.innerHTML = `Alpine Grazing : ${this.attendanceCountBA}`;
+        this.logCount3Element.innerHTML = `Tennessee Goats : ${this.attendanceCountGOAT}`;
+        this.logCount4Element.innerHTML = `Kiko Goats : ${this.attendanceCountKiko}`;
+    }
+    
+
+    
+    dataTEP() {
+        this.addMarker(8.3601987, 124.8594032, 'American Pygmy');
+        this.attendanceCountTEP++; 
+        this.updateLogDisplay();
+    }
+
+    
+    dataCSS() {
+        this.addMarker(8.351333, 124.8743938, 'Nubian');
+        this.attendanceCountCSS++;
+        this.updateLogDisplay();
+    }
+
+    dataBA() {
+        this.addMarker(8.3732710, 124.8666358, 'Alpine Grazing');
+        this.attendanceCountBA++;
+        this.updateLogDisplay();
+    }
+    dataGOAT() {
+        this.addMarker(8.3548458, 124.8644220, 'Tennessee Goats');
+        this.attendanceCountGOAT++;
+        this.updateLogDisplay();
+    }
+    dataKiko() {
+        this.addMarker(8.3578238, 124.8666672, 'Kiko goat');
+        this.attendanceCountKiko++;
+        this.updateLogDisplay();
+    }
+
+
+    updateLogDisplay() {
+        this.idContainer.innerHTML = ''; 
+        this.loggedData.forEach(data => {
+            const logItem = document.createElement('div');
+            logItem.className = 'log-item';
+            logItem.textContent = data; 
+            this.idContainer.appendChild(logItem);
+        });
+        this.displayLogCount();
+    }
+}
+    const Mymap = new LeafletMap('map', [8.359735, 124.869206], 18);
+    Mymap.loadMarkersFromJson('applet-2.json');
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        Mymap.displayLogCount();
+    });
