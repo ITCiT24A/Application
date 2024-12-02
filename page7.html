@@ -97,3 +97,67 @@
             margin-bottom: 2rem;
         }
     </style>
+    </head>
+    <body>
+        <header>
+            <h1>Task Manager</h1>
+        </header>
+    
+        <div class="container todo-container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="index.html">Home</a>
+                    <a href="page2.html" class="btn btn-danger ms-2">Back</a>
+                </div>
+            </nav>
+    
+            <section>
+                <h2 class="text-center mb-4">Manage Your Tasks</h2>
+            </div>
+                <div class="input-group">
+                    <textarea class="form-control" id="todoInput" placeholder="Add a new task..." rows="3"></textarea>
+                    <button class="btn btn-primary ms-2" id="addButton">Add Task</button>
+                </div>
+            </div>
+                <ul id="todoList" class="todo-list"></ul>
+            </section>
+        </div>
+        <footer>
+             <div class="col-md-6" style="font-size: 30px;width: 101%; height: -10%; margin-top:1rem;">
+                 <p>&copy; 2024 Internet Tracking Company. All rights reserved.</p>
+                    </div>
+                      </footer>
+                <script>
+                    
+            document.getElementById('addButton').addEventListener('click', function () {
+                const todoInput = document.getElementById('todoInput');
+                const taskText = todoInput.value.trim();
+    
+                if (taskText !== '') {
+                    const todoList = document.getElementById('todoList');
+                    const li = document.createElement('li');
+                    li.classList.add('todo-item');
+                    
+                    const taskSpan = document.createElement('span');
+                    taskSpan.textContent = taskText;
+                    li.appendChild(taskSpan);
+    
+                   
+                    const completeButton = document.createElement('button');
+                    completeButton.classList.add('btn', 'btn-success', 'btn-sm');
+                    completeButton.textContent = 'Complete';
+                    completeButton.addEventListener('click', function () {
+                        li.classList.toggle('completed');
+                    });
+    
+                    li.appendChild(completeButton);
+    
+                    
+                    todoList.appendChild(li);
+                    todoInput.value = ''; 
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
