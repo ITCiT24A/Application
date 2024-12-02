@@ -40,3 +40,72 @@ class WeatherApp {
     
     
 }
+
+class WeatherService extends WeatherApp {
+    async fetchWeather() {
+        const apiKey = this.apiKey.value
+        const city = this.cityInput.value;
+        if (city) {
+            const data = await this.getWeatherData(city,apiKey);
+            if (data) {
+                this.displayWeather(data,apiKey);
+            } else {
+                alert('City not found. Please try again.');
+            }
+        } else {
+            alert('Please enter a city name.');
+        }
+    }
+
+    async fetchWeatherByLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    const { latitude, longitude } = position.coords;
+                    const data = await this.getWeatherDataByCoordinates(latitude, longitude);
+                    if (data) {
+                        this.displayWeather(data);
+                        this.cityInput.value = '';
+                    } else {
+                        alert('Unable to retrieve weather data for your location.');
+                    }
+                },
+                () => {
+                    alert('Unable to retrieve your location. Please allow location access.');
+                }
+            );
+        } else {
+            alert('Geolocation is not supported by this browser.');
+        }
+    }
+
+    async getWeatherData(city,apiKey) {
+        try {
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Error fetching weather data:', error);
+        }
+        return null;
+    }
+
+    async getWeatherDataByCoordinates(latitude, longitude, apiKey) {
+        try {
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`);
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            console.error('Error fetching weather data by coordinates:', error);
+        }
+        return null;
+    }
+}
+const weatherApp = new WeatherService();
+
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = new bootstrap.Modal(document.getElementById('infoModal'));
+    modal.show();
+});
