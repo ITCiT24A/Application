@@ -6,13 +6,14 @@ class LeafletMap {
         this.attendanceCountTEP = 0;
         this.attendanceCountCSS = 0;
         this.attendanceCountBA = 0;
-        this.attendanceCountGOAT= 0;
-        this.attendanceCountKiko= 0;
+        this.attendanceCountGOAT = 0;
+        this.attendanceCountKiko = 0;
 
         this.markerCounts = {};
         this.markers = [];
-        this.loggedData = []; 
+        this.loggedData = [];
 
+        // Elements for Buttons and Displaying Counts
         this.btn = document.getElementById('btn');
         this.btn1 = document.getElementById('btn1');
         this.btn2 = document.getElementById('btn2');
@@ -26,6 +27,7 @@ class LeafletMap {
         this.logCount4Element = document.getElementById('logCountKkiko');
         this.idContainer = document.getElementById('logContainer');
 
+        // Event Listeners for Button Clicks
         this.btn.addEventListener('click', () => this.dataTEP());
         this.btn1.addEventListener('click', () => this.dataCSS());
         this.btn2.addEventListener('click', () => this.dataBA());
@@ -34,6 +36,8 @@ class LeafletMap {
         this.btnclear.addEventListener('click', () => this.clearLogs());
 
     }
+
+    // Initialize the Tile Layer for the Map
     initTileLayer() {
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -41,6 +45,7 @@ class LeafletMap {
         }).addTo(this.map);
     }
 
+    // Add Marker to the Map
     addMarker(lat, long, message) {
         const marker = L.marker([lat, long]).addTo(this.map);
         this.markerCounts[message] = (this.markerCounts[message] || 0) + 1;
@@ -53,11 +58,14 @@ class LeafletMap {
 
         this.markers.push(marker);
     }
-    
+
+    // Update the Marker Popup with Attendance Count
     updateMarkerPopup(marker, message) {
         const count = this.markerCounts[message];
         marker.bindPopup(`${message}<br>Attendance: ${count}`).openPopup();
     }
+
+    // Load Markers from JSON file
     loadMarkersFromJson(url) {
         fetch(url)
             .then(response => response.json())
@@ -68,6 +76,8 @@ class LeafletMap {
             })
             .catch(error => console.error("Error loading servers:", error));
     }
+
+    // Clear Logs and Reset Counts
     clearLogs() {
         this.attendanceCountTEP = 0;
         this.attendanceCountCSS = 0;
@@ -76,32 +86,32 @@ class LeafletMap {
         this.attendanceCountKiko = 0;
 
         this.loggedData = [];
-        this.markerCounts = {}; 
+        this.markerCounts = {};
         this.markers.forEach(marker => {
-            const message = marker.getPopup().getContent().split('<br>')[0]; 
+            const message = marker.getPopup().getContent().split('<br>')[0];
             this.markerCounts[message] = 0;
-            this.updateMarkerPopup(marker, message); 
+            this.updateMarkerPopup(marker, message);
         });
         this.updateLogDisplay();
     }
-    
-    displayLogCount() {      
+
+    // Display Attendance Log Count
+    displayLogCount() {
         this.logCountElement.innerHTML = `American Pygmy Goats: ${this.attendanceCountTEP}`;
         this.logCount1Element.innerHTML = `Nubian Goats : ${this.attendanceCountCSS}`;
         this.logCount2Element.innerHTML = `Alpine Grazing : ${this.attendanceCountBA}`;
         this.logCount3Element.innerHTML = `Tennessee Goats : ${this.attendanceCountGOAT}`;
         this.logCount4Element.innerHTML = `Kiko Goats : ${this.attendanceCountKiko}`;
     }
-    
 
-    
+    // Functions for Each Pillar (Goat Types)
     dataTEP() {
         this.addMarker(8.3601987, 124.8594032, 'American Pygmy');
-        this.attendanceCountTEP++; 
+        this.attendanceCountTEP++;
         this.updateLogDisplay();
     }
-
     
+
     dataCSS() {
         this.addMarker(8.351333, 124.8743938, 'Nubian');
         this.attendanceCountCSS++;
@@ -113,32 +123,39 @@ class LeafletMap {
         this.attendanceCountBA++;
         this.updateLogDisplay();
     }
+
     dataGOAT() {
         this.addMarker(8.3548458, 124.8644220, 'Tennessee Goats');
         this.attendanceCountGOAT++;
         this.updateLogDisplay();
     }
+
     dataKiko() {
-        this.addMarker(8.3578238, 124.8666672, 'Kiko goat');
+        this.addMarker(8.3578238, 124.8666672, 'Kiko Goat');
         this.attendanceCountKiko++;
         this.updateLogDisplay();
     }
 
-
+    // Update and Display Log Data
     updateLogDisplay() {
-        this.idContainer.innerHTML = ''; 
+        this.idContainer.innerHTML = '';
         this.loggedData.forEach(data => {
             const logItem = document.createElement('div');
             logItem.className = 'log-item';
-            logItem.textContent = data; 
+            logItem.textContent = data;
             this.idContainer.appendChild(logItem);
         });
         this.displayLogCount();
     }
 }
-    const Mymap = new LeafletMap('map', [8.359735, 124.869206], 18);
-    Mymap.loadMarkersFromJson('page2.json');
-    
-    document.addEventListener('DOMContentLoaded', () => {
-        Mymap.displayLogCount();
-    });
+
+// Initialize the Map
+const Mymap = new LeafletMap('map', [8.359735, 124.869206], 18);
+
+// Load Markers from a JSON file
+Mymap.loadMarkersFromJson('page2.json');
+
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    Mymap.displayLogCount();
+});
